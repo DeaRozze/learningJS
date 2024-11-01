@@ -191,53 +191,6 @@ console.log(book)
 // { title: 'Сказка о царе Салтане', author: 'А. С. Пушкин'}
 
 
-Удаление свойств Скопировать ссылку "Удаление свойств"
-Для удаления свойств используют оператор delete:
-
-const book = {
-  title: 'Война и мир',
-  author: 'Лев Толстой',
-  pages: 1274,
-  isFinished: true,
-  usersReading: [1946, 1293, 7743]
-}
-
-delete book.usersReading
-delete book['isFinished']
-
-console.log(book)
-// { title: 'Война и мир', author: 'Лев Толстой', pages: 1274 }
-
-Чаще всего свойства не удаляют, а сбрасывают значение, устанавливая undefined или подходящее по смыслу:
-
-const book = {
-  title: 'Война и мир',
-  author: 'Лев Толстой',
-  pages: 1274,
-  isFinished: true,
-  usersReading: [1946, 1293, 7743]
-}
-
-book.usersReading = undefined
-book['isFinished'] = undefined
-// {
-//    title: 'Война и мир',
-//    author: 'Лев Толстой',
-//    pages: 1274
-//    isFinished: undefined,
-//    usersReading: undefined
-// }
-
-Если ключ содержит пробел, то обращаться к нему возможно только через синтаксис квадратных скобок:
-
-const obj = {
-  'the answer': 42
-}
-
-console.log(obj['the answer'])
-// 42
-
-
 Сравнение объектов Скопировать ссылку "Сравнение объектов"
 Объекты — ссылочный тип данных.Сравнению по ссылке посвящена отдельная статья.
 
