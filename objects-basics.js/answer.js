@@ -429,3 +429,10 @@ alert(new SmallUser().name);  // John
 
 // user.f()
 // admin.f()
+
+
+function sumary() {
+  this.name = name
+}
+
+console.log(name);
