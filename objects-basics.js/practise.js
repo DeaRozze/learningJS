@@ -371,3 +371,35 @@
 // let user = new MakeUser(name, 30);
 
 // console.log(user);
+
+Задача от GPT 1.
+
+// let car = {
+//   brand: 'BMV',
+//   model: 'M5',
+//   year: 2016,
+//   isElectric: true,
+//   getInfo() {
+//     console.log(`Автомобиль: ${this.brand}, ${this.model},год выпуска: ${this.year}`);
+//   }
+// }
+// car.getInfo()
+
+// Задача от GPT 2.
+
+function Book(title, author, year) {
+  this.title = title,
+    this.author = author,
+    this.year = year,
+    this.getInfo = () => {
+      console.log(`Книга: ${this.title}, автор: ${this.author}, год: ${this.year} `);
+    }
+}
+//Как вариант можно так: 
+//    this.getInfo = function() {
+//return `Книга: "${this.title}", автор: ${this.author}, год: ${this.year}.`;
+// };
+
+let first = new Book('Potteer', 'Rolling', '2001')
+
+first.getInfo()
