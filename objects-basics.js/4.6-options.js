@@ -120,11 +120,56 @@ delete user?.name; // удаляет user.name если пользователь
 Синтаксис опциональной цепочки?.имеет три формы:
 
 obj?.prop – возвращает obj.prop если obj существует, в противном случае undefined.
-obj?.[prop] – возвращает obj[prop] если obj существует, в противном случае undefined.
-obj.method?.() – вызывает obj.method(), если obj.method существует, в противном случае возвращает undefined.
+  obj?.[prop] – возвращает obj[prop] если obj существует, в противном случае undefined.
+    obj.method?.() – вызывает obj.method(), если obj.method существует, в противном случае возвращает undefined.
 ?.проверяет левую часть на null / undefined и позволяет продолжить вычисление, если это не так.
 
-Цепочка?.позволяет безопасно получать доступ к вложенным свойствам.
+  Цепочка?.позволяет безопасно получать доступ к вложенным свойствам.
 
 Тем не менее, мы должны использовать?.осторожно, только там, где по логике кода допустимо, что левая часть не существует.
 Чтобы он не скрывал от нас ошибки программирования, если они возникнут.
+
+const auto = {
+  brand: 'Tesla',
+  model: ' ModelX',
+  // details: {
+  //   color: 'Красный',
+  //   year: 2021,
+  //   atStock: true,
+  // },
+}
+
+const cars = [auto];
+
+ЕСЛИ УБРАТЬ ВЛОЖЕННОСТЬ В ОБЪЕКТЕ - ТО БУДЕТ ОШИБКА
+cars.forEach(car => {
+  console.log(`${car.brand} ${car.detatils.year}: цвет - ${car.details.color}`)
+})
+
+ВАРИАНТ ИСПРАВЛЕНИЯ ОШИБКИ(БУДЕТ МЕНЯТЬ НА undefined), проверок может быть очень много - это загрязнение
+cars.forEach(car => {
+  console.log(`${car.brand} ${car.detatils && car.detatils.year}: цвет - ${car.detatils && car.details.color}`)
+})
+
+
+ВАРИНТА ПРАВиЛЬНЫЙ
+
+cars.forEach(car => {
+  console.log(`${car.brand} ${car.detatils?.year}: цвет - ${car.details?.color}`)
+})
+
+РАБОТАЕТ С МЕТОДАМИ
+
+const auto = {
+  brand: 'Tesla',
+  model: ' ModelX',
+  // drive() {
+  //   console.log('rrrrrrrr');
+  // }
+}
+
+auto.drive?.()
+
+const auto = null
+
+console.log(auto?.['brand']);

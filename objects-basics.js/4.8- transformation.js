@@ -276,28 +276,280 @@ obj[Symbol.toPrimitive] = function (hint) {
 
   // console.log(personList);//{Alex: 'Odessa'}
 
-  const person = {
-    name: "Alex",
-    age: 22,
-    valueOf: null,
-    [Symbol.toPrimitive]: function (hint) {
-      console.log(hint); //string
-      switch (hint) {
-        case 'string':
-          return this.name
-        case 'number':
-          return this.age
-        default:
-          return `${this.name}, ${this.age}`
-      }
+  // const person = {
+  //   name: "Alex",
+  //   age: 22,
+  //   valueOf: null,
+  //   [Symbol.toPrimitive]: function (hint) {
+  //     console.log(hint); //string
+  //     switch (hint) {
+  //       case 'string':
+  //         return this.name
+  //       case 'number':
+  //         return this.age
+  //       default:
+  //         return `${this.name}, ${this.age}`
+  //     }
+  //   }
+  // }
+
+  // const personList = {}
+
+  // personList[person] = 'Odessa' // если написать +person то в консоли hint будет number
+
+  // console.log(personList);//{22: 'Odessa'}
+  // console.log(person + preson); //Alex, 22Alex, 22
+  // console.log(+person + +preson); /number number 44 
+
+
+Логическое преобразование 
+
+Любой объект в логическом преобразовании - true, даже если это пустой массив или объект
+
+  if ({} && []) {
+    alert('Все объекты - true!') // flert сработает
+  }
+  
+
+Строковое преобразование
+
+  var user = {
+    firstName: 'Vlad'
+  }
+
+  alert(user) //[object object]
+
+Если в объекте присутствует метод toString, который возвращает  примитив, то он используется для преобразования
+
+  var user = {
+    firstName: 'Василий',
+    toString: function () {
+      return 'Пользователь ' + this.firstName
     }
   }
 
-  const personList = {}
+  alert(user)
 
-  personList[person] = 'Odessa' // если написать +person то в консоли hint будет number
+Результатом toString может быть любой примитив
 
-  console.log(personList);//{22: 'Odessa'}
-  console.log(person + preson); //Alex, 22Alex, 22
-  console.log(+person + +preson); /number number 44 
+метод toString не обязан возвращать именно строку.
+
+его результат может быть любого примитивного типа.Например число
+
+  var obj = {
+    toString: function () {
+      return 123
+    }
+  }
+
+  alert(obj) //123
+
+  Поэтому мы и называем его здесь «строковое преобразование», а не «преобразование к строке».
+
+  Все объекты, включая встроенные, имеют свои реализации метода toString, например:
+
+  alert([1, 2]) // toString для массивов выводит список элементов '1,2'
+  alert(new Date) // toString для дат выводит дату в виду строки
+  alert(function () { }); // toString для функции выводит её код
+
+  Численное преобразование
+  для численного преобразования объекста используется метод valueOf, а если его нет - то toString
+
+  var room = {
+    number: 777,
+
+    valueOf: function () { return this.number },
+    toString: function () { return this.number }
+  }
+
+  alert(+room) // 777, вызвался valueOf
+  delete room.valueOf // удаление valueof
+  alert(+room) // 777, вызвался toString
+
+  Метод valueOf обязан возвращать примитивное значение, иначе его результат будет проигнорирован.
+   При этом – не обязательно числовое.
+
+   У БОЛЬШИНСТВА ОБЪЕКТОВ НЕТ valueOf
+
+  у большинства встроенных объектов такого valueOf нет, поэтому численное и строквое преобразование для них работает одинаково.
   
+  иСключение является объект Date, который поддерживает оба типа преобразований
+
+  alert(new Date()); // toString: Дата в виде читаемой строки
+  alert(+new Date()); // valueOf: кол-во миллисекунд, прошедших с 01.01.1970
+
+  ДВЕ СТАДИИ ПРЕОБРАЗОВАНИЯ
+
+  вполне возможно что в процессе вычислений примитив бдует преобразован во что то другое.
+
+  например, применение к объекту операции ==
+
+  var obj = {
+    valueOf: function() {
+      return 1;
+    }
+  };
+  
+  alert(obj == true); // true
+
+  объект obj был сначала преобразован в примитив, используя численное преобразование, получилось 1 ==true
+  Далее, так как значения все еще разных типов, применяются правила преобразования примитивов, результат true
+
+  то же самое при сложении с объектом при помощи +
+
+  var obj = {
+    valueOf: function() {
+      return 1;
+    }
+  };
+  
+  alert( obj + "test" ); // 1test
+
+  Или вот, для разности объектов:
+
+var a = {
+  valueOf: function() {
+    return '1';
+  }
+};
+var b = {
+  valueOf: function() {
+    return '2';
+  }
+};
+
+alert( a + b ); // "12"
+alert( a - b ); // "1" - "2" = -1
+
+
+ЗАДАЧИ
+
+alert(['x'] == 'x') //true
+
+Если с одной стороны – объект, а с другой – нет, то сначала приводится объект.
+
+В данном случае сравнение означает численное приведение.
+ У массивов нет valueOf, поэтому вызывается toString, который возвращает список элементов через запятую.
+
+В данном случае, элемент только один – он и возвращается. 
+Так что ['x'] становится 'x'. Получилось 'x' == 'x', верно.
+
+P.S. По той же причине верны равенства:
+
+alert( ['x', 'y'] == 'x,y' ); // true
+alert( [] == '' ); // true
+
+
+Объявлен объект с toString и valueOf.
+
+Какими будут результаты alert?
+
+
+var foo = {
+  toString: function() {
+    return 'foo';
+  },
+  valueOf: function() {
+    return 2;
+  }
+};
+
+console.log( foo ); //foo
+console.log( foo + 1 ); // 3
+console.log( foo + "3" );// 23
+
+
+Почему [] == [] неверно, а [ ] == ![ ] верно?
+Почему первое равенство – неверно, а второе – верно?
+
+alert( [] == [] ); // false потому что это два объекта с разными ссылками
+alert( [] == ![] ); // true
+Какие преобразования происходят при вычислении?
+
+ответ по второму равенству,
+
+1.обе части сравнения вычисляются. спрова находится ![].
+логическое НЕ '!' преобразует аргумент к логическому типу. Массив является объектом, так что это true
+значит, правая часть становится ![] = !true = false
+
+1. alert([] ==false)
+
+2.проверка равенства между объектами и примитивом вызывает численное преобразование объекта.
+у массива нет valueOf, сработает toString и преобразует массив в список элементов, то есть в пустую строку
+
+alert( '' == false )
+
+3. Сравнение различных типов вызывает численное преобразование слева и справа
+
+alert (0 == 0)
+теперь результат очевиден
+
+
+
+new Date(0) - 0 // 0
+new Array(1)[0] + ""  //  "undefined"
+({})[0] //undefined
+[1] + 1 // "11"
+[1,2] + [3,4] //"1,23,4"
+[] + null + 1 //"null1"
+[[0]][0][0] //0
+({} + {}) //"[object Object][object Object]"
+
+
+
+const obj = {
+  [Symbol.toPrimitive](hint) {
+    if (hint === 'number') {
+      return 42;
+    }
+    if (hint === 'string') {
+      return 'Hello';
+    }
+    return null;
+  }
+};
+
+console.log(obj + 10); // Вывод: 52
+console.log(obj.toString()); // Вывод: Hello
+
+
+как сделать чтобы объект был раен определенному числу?
+
+let obj = {
+  valueOf () {
+    return 2
+  }
+}
+console.log(+obj)
+
+был равен определенной строке?
+
+let obj = {
+  toString: function () {
+    return 'Hello'
+  }
+}
+
+console.log(obj + 2)
+console.log(String(obj))
+
+запомни алерт вернет строку и без дополнительных вычислений, консоль вернет функцию
+
+obj > 0 // true. Как это сделать?
+let obj = {
+  toString () {
+    return 1
+  }
+}
+console.log(String(obj > 0))
+
+
+String(obj < 0) + String(obj < 0) // "truefalse". Как это сделать?
+
+let obj = {
+  toString() {
+    return '-1'
+  }
+}
+
+console.log(String(obj < 0) + String(!obj < 0))

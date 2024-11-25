@@ -206,3 +206,30 @@ Symbol.toPrimitive
 Так что, используя символьные свойства, мы можем спрятать что - то нужное нам, но что другие видеть не должны.
 
 Существует множество системных символов, используемых внутри JavaScript, доступных как Symbol.*.Мы можем использовать их, чтобы изменять встроенное поведение ряда объектов.Например, в дальнейших главах мы будем использовать Symbol.iterator для итераторов, Symbol.toPrimitive для настройки преобразования объектов в примитивы и так далее.
+
+
+СОЗДАЕМ НОВЫЙ СИМВОЛ
+
+let symbolExample = Symbol()
+
+СИМВОЛЫ ВСЕГДА УНИКАЛЬНЫ, ДАЖЕ ЕСЛИ МЫ СОЗДАДИМ ИХ С ОДИНАКОВЫМ ОПИСАНИЕМ
+
+let symbolExample_2 = Symbol('id')
+let symbolExample_3 = Symbol('id')
+
+console.log(symbolExample_2, symbolExample_3);
+
+console.log(symbolExample_2 == symbolExample_3); false
+console.log(symbolExample_2 === symbolExample_3); false
+
+ВЫДАЕТ ОШИБКУ
+alert(symbolExample_3);
+
+чтобы преобразовать в строку можем использовать метод toString
+
+let symbolExample_4 = Symbol('id').toString()
+alert(symbolExample_4);
+
+Или обратиться к его описанию
+let id = Symbol('id')
+alert(id.description)//id
