@@ -513,7 +513,7 @@ console.log(obj + 10); // Вывод: 52
 console.log(obj.toString()); // Вывод: Hello
 
 
-как сделать чтобы объект был раен определенному числу?
+как сделать чтобы объект был равен определенному числу?
 
 let obj = {
   valueOf () {
@@ -535,21 +535,15 @@ console.log(String(obj))
 
 запомни алерт вернет строку и без дополнительных вычислений, консоль вернет функцию
 
-obj > 0 // true. Как это сделать?
-let obj = {
-  toString () {
-    return 1
+const obj = {
+  calls: 0,
+  valueOf: function() {
+      this.calls++;
+      if (this.calls === 1) return -1; 
+      return 1; 
   }
-}
-console.log(String(obj > 0))
+};
+
+console.log(String(obj < 0) + String(obj < 0));
 
 
-String(obj < 0) + String(obj < 0) // "truefalse". Как это сделать?
-
-let obj = {
-  toString() {
-    return '-1'
-  }
-}
-
-console.log(String(obj < 0) + String(!obj < 0))
