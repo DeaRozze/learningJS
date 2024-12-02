@@ -535,15 +535,5 @@ console.log(String(obj))
 
 запомни алерт вернет строку и без дополнительных вычислений, консоль вернет функцию
 
-const obj = {
-  calls: 0,
-  valueOf: function() {
-      this.calls++;
-      if (this.calls === 1) return -1; 
-      return 1; 
-  }
-};
-
-console.log(String(obj < 0) + String(obj < 0));
 
 
