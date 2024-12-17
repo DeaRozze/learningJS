@@ -330,3 +330,24 @@ let new_names = names.map(n => n[0].toUpperCase() + n.slice(1).toLowerCase())
 console.log(new_names)
 
 
+// создание объектов с частотами 
+
+const fruits = ['apple', 'banana', 'orange', 'banana', 'apple'];
+
+const frequency = fruits.reduce((acc, currentV) => {
+  acc[currentV] = (acc[currentV] || 0) + 1
+  return acc
+}, {})
+
+console.log(frequency) // Вывод: { apple: 2, banana: 2, orange: 1 }
+
+
+//Нахождение максимального значения:
+
+const numbers = [5, 12, 8, 130, 44];
+
+const max = numbers.reduce((accumulator, currentValue) => {
+    return (currentValue > accumulator) ? currentValue : accumulator;
+}, numbers[0]);
+
+console.log(max); // Вывод: 130
