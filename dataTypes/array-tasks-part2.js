@@ -2,9 +2,15 @@
 
 // Напишите функцию, которая принимает массив объектов и ключ.Функция должна группировать объекты по указанному ключу и возвращать объект,
 //   где ключи — это уникальные значения по указанному ключу, а значения — массивы объектов, у которых этот ключ имеет соответствующее значение.
-const array = []
-function groupBy(array, key) {
-  return array.reduce((acc, obj) => {
+const arr = [
+  { id: 1, category: 'A', value: 10 },
+  { id: 2, category: 'B', value: 20 },
+  { id: 3, category: 'A', value: 30 },
+  { id: 4, category: 'B', value: 40 },
+  { id: 5, category: 'C', value: 50 },
+];
+function groupBy(arr, key) {
+  return arr.reduce((acc, obj) => {
     const prop = obj[key];
     if (!acc[prop]) {
       acc[prop] = []
@@ -13,7 +19,7 @@ function groupBy(array, key) {
     return acc
   }, {})
 }
-console.log(groupBy(array));
+console.log(groupBy(arr));
 
 
 // Мы используем метод reduce, который позволяет преобразовать массив в объект.
@@ -29,17 +35,18 @@ console.log(groupBy(array));
 // Напишите функцию, которая принимает массив и возвращает новый массив, содержащий те же элементы в обратном порядке,
 //   но без использования методов reverse(), slice() или других встроенных методов массивов.
 
-const arr = [1, 2, 3, 4, 5]
-
-function reverseArray() {
-  const reversed = [];
+function reverseArr(arr) {
+  const result = [];
+  
   for (let i = arr.length - 1; i >= 0; i--) {
-    reversed.push(arr[i])
+      const index = arr.length - i - 1;
+      result[index] = arr[i];
   }
-  return reversed
+  
+  return result;
 }
 
-console.log(reverseArray(arr));
+reverseArr([1, 2, 3, 4, 5]);
 
 // Мы создаем новый пустой массив reversed.
 
