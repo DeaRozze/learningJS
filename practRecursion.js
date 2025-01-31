@@ -1,5 +1,5 @@
 function sumTo(n) {
-//  return n <= 1 ? n : n + sumTo(n - 1)
+  //  return n <= 1 ? n : n + sumTo(n - 1)
 
   if (n === 1) return n
   return n + sumTo(n - 1)
@@ -62,8 +62,8 @@ return n * fact(n - 1)
 
 
 function fib(n) {
-  if(n <= 1) return n
-  return fib(n - 1) + fib(n - 2)     
+  if (n <= 1) return n
+  return fib(n - 1) + fib(n - 2)
 }
 
 fib(5)
@@ -80,7 +80,7 @@ fib(5)
 // n-е число в последовательности чисел Люка.
 
 // Последовательность чисел Люка определяется по следующему правилу:
-     
+
 // L(0)=2,  L(1)=1,   L(n) = L(n−1) + L(n−2) для n≥2
 
 // Описание:
@@ -90,10 +90,10 @@ fib(5)
 // Постарайтесь соблюсти правильные условия завершения рекурсии.
 
 function lucas(n) {
-  if(n === 0) return 2
-    if(n === 1) return 1
-return lucas(n-1) + lucas(n-2)
-  
+  if (n === 0) return 2
+  if (n === 1) return 1
+  return lucas(n - 1) + lucas(n - 2)
+
 }
 
 lucas(5)
@@ -120,15 +120,15 @@ function pow(x, n) {
 //Как бы заманчиво это ни звучало, не используйте циклы для решения этой задачи.
 
 function replicate(times, number) {
-  if(times <= 0) return []
-  res = replicate(times-1 ,  number) 
-      res.push(number)
-      return res 
+  if (times <= 0) return []
+  res = replicate(times - 1, number)
+  res.push(number)
+  return res
 }
 
 console.log(replicate(3, 5)); // [5,5,5]
 console.log(replicate(-3, 1)); // []
-  res = []
+res = []
 // 1. rep(3 - 1, 5) // rep(2 , 5) [5,5,5]
 // 2. rep(2 -1, 5)  // rep(1, 5) [5]
 // 3. rep(1 - 1, 5) //rep(0, 5) []
@@ -136,9 +136,9 @@ console.log(replicate(-3, 1)); // []
 //Циклом:
 
 const res = []
-for (let i = 0;i < 3; i++) {
-    res.push(5)
-   
+for (let i = 0; i < 3; i++) {
+  res.push(5)
+
 }
 console.log(res)
 
@@ -161,16 +161,16 @@ const data = {
 };
 
 function getValues(obj) {
-    let values = []
-    
-    for (let key in obj) {
-        if (typeof obj[key] === 'object' && obj[key] !== null) {
-            values = values.concat(getValues(obj[key]))
-        } else {
-            values.push(obj[key])
-        }
+  let values = []
+
+  for (let key in obj) {
+    if (typeof obj[key] === 'object' && obj[key] !== null) {
+      values = values.concat(getValues(obj[key]))
+    } else {
+      values.push(obj[key])
     }
-    return values
+  }
+  return values
 }
 
 console.log(getValues(data)); // (4) ['John', 30, 'USA', 'New York']
@@ -183,7 +183,7 @@ function getValues(obj) {
 
   for (let [key, value] of Object.entries(obj)) {
     if (typeof value === 'object' && value !== null) {
-      values = values.concat(getValues(value)); 
+      values = values.concat(getValues(value));
     } else {
       values.push(value);
     }
@@ -214,9 +214,9 @@ let list = {
 
 function printList(list) {
   console.log(list.value)
-  
-  if(list.next) {
-      printList(list.next)
+
+  if (list.next) {
+    printList(list.next)
   }
 }
 printList(list)
@@ -225,10 +225,10 @@ printList(list)
 
 function printList(list) {
   let tmp = list
-  
+
   while (tmp) {
-      console.log(tmp.value)
-      tmp = tmp.next
+    console.log(tmp.value)
+    tmp = tmp.next
   }
 }
 
@@ -260,8 +260,39 @@ function printReverseList(list) {
   }
 
   for (let i = arr.length - 1; i >= 0; i--) {
-    alert( arr[i] );
+    alert(arr[i]);
   }
 }
 
 printReverseList(list);
+
+
+
+
+function findMultiples(integar, limit) {
+  let arr = []
+  for (let i = integar; i <= limit; i += integar) {
+    arr.push(i)
+  }
+  return arr
+}
+
+findMultiples(2, 6)
+
+
+let arr2 = [true, true, true, false,
+  true, true, true, true,
+  true, false, true, false,
+  true, false, false, true,
+  true, true, true, true,
+  false, false, true, true]
+
+
+  function countSheep(arr) {
+    return arr.filter(Boolean).length;
+}
+
+countSheep(arr2)
+
+
+

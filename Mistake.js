@@ -77,17 +77,17 @@ for (const value of singleElement) {
 // Второй вариант
 
 const singleElement = {
-  element: 42, 
+  element: 42,
 
   [Symbol.iterator]() {
-    let isDone = false; 
+    let isDone = false;
     return {
       next() {
         if (isDone) {
-          return { done: true }; 
+          return { done: true };
         }
         isDone = true;
-        return { value: this.element, done: false }; 
+        return { value: this.element, done: false };
       }
     };
   }
