@@ -508,7 +508,8 @@ function multiply(num1, num2) {
 }
 // Если multiply(num1, numb2) будет вызвана с 2 аргументами, то она должна вернуть умножение 2 аргументов.
 
-// Но в том случае, если вызывается 1 аргумент const anotherFunc = multiply(numb1), то функция должна возвращать другую функцию. Возвращаемая функция при вызове anotherFunc(num2) выполняет умножение num1 * num2.
+// Но в том случае, если вызывается 1 аргумент const anotherFunc = multiply(numb1), то функция должна возвращать другую функцию. 
+// Возвращаемая функция при вызове anotherFunc(num2) выполняет умножение num1 * num2.
 
 multiply(4, 5); // => 20
 multiply(3, 3); // => 9
@@ -535,3 +536,135 @@ const double = multiply(2);
 double(5);  // => 10
 double(11); // => 22
 
+
+
+
+
+
+
+// gpt
+//1
+function outer() {
+  var x = 10;
+  function inner() {
+    console.log(x);
+  }
+  return inner;
+}
+
+const closure = outer();
+closure(); //10
+
+//2
+function outer(a) {
+  return function(b) {
+    console.log(a + b);
+  };
+}
+
+const add5 = outer(5);
+add5(3); //8
+
+//3
+function counter() {
+  let count = 0;
+  return function() {
+    count++;
+    return count;
+  };
+}
+
+const increment = counter();
+console.log(increment()); //1
+console.log(increment()); //2
+console.log(increment()); //3
+
+//4
+
+function outer() {
+  var x = 10;
+  function inner() {
+    var x = 20;
+    console.log(x);
+  }
+  inner(); //20
+  console.log(x); 
+}
+
+outer();//10
+
+
+//5 
+
+function createMultiplier(multiplier) {
+  return function(number) {
+    return number * multiplier;
+  };
+}
+
+const multiplyBy2 = createMultiplier(2);
+console.log(multiplyBy2(5)); //10
+console.log(multiplyBy2(10)); //20
+
+// 6
+
+function outer() {
+  var x = 10;
+  setTimeout(function() {
+    console.log(x);
+  }, 1000);
+}
+
+outer(); 10
+
+// 7
+
+function createGreeting(greeting) {
+  return function(name) {
+    return `${greeting}, ${name}!`;
+  };
+}
+
+const sayHello = createGreeting("Hello");
+const sayHi = createGreeting("Hi");
+
+console.log(sayHello("Alice")); // ? Hello, Alice!
+console.log(sayHi("Bob")); // ? Hi, Bob!
+
+
+// 8 
+function createAdder(x) {
+  return function(y) {
+    return x + y;
+  };
+}
+
+const add5 = createAdder(5);
+const add10 = createAdder(10);
+
+console.log(add5(2)); // ? 7
+console.log(add10(2)); // ? 12
+
+
+// 9: Правильное или неправильное сообщение
+// Что будет записано в консоль в следующем фрагменте кода (code snippet):
+
+function createIncrement() {
+  let count = 0;
+  function increment() { 
+    count++;
+  }
+
+  let message = `Count is ${count}`;
+  function log() {
+    console.log(message);
+  }
+  
+  return [increment, log];
+}
+
+const [increment, log] = createIncrement();
+increment(); 
+increment(); 
+increment(); 
+log(); // 
