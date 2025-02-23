@@ -15,41 +15,64 @@
 
 function Purchase() {
   this.items = []
-  this.addItem = function (item, count) {
-    let existingItem = this.items.find(cur => cur.name === item.name)
-    console.log(existingItem);
-    
-    if (existingItem) {
-      existingItem.count = existingItem.count + count
-    } else {
-      this.items.push({
-        name: item.name,
-        price: item.price,
-        count: count
-      })
+  this.locked = false;
+  this.addItem = function (item, count = 1) {
+    if (this.locked) {
+      console.log("Order is locked. Cannot add items.");
+      return;
     }
-  }
-  //   this.removeItem = function (item, count) {
 
-  //   },
-  //   this.getCheck = function () {
+    const existingItem = this.items.find(cur => cur.name === item.name)
 
-  //   },
-  //   this.lockOrder = function () {
+    if (existingItem) {
+      existingItem.count += count
+    } else {
+      this.items.push({ ...item, count })
+    }
+  },
+    this.removeItem = function (item, count) {
+      if (this.locked) {
+        console.log("Order is locked. Cannot remove items.");
+        return;
+      }
 
-  //   },
-  //   this.unlockOrder = function () {
-  //   }
+      const existingItem = this.items.find(cur => cur.name === item.name)
+
+      if (existingItem) {
+        if (count === -1 || existingItem.count <= count) {
+          let index = this.items.indexOf(existingItem);
+          this.items.splice(index, 1)
+        } else {
+          existingItem.count -= count
+        }
+      } else {
+        console.log("Item not found in the order.");
+      }
+    },
+
+    this.getCheck = function () {
+      let total = 0;
+      let checkInfo = this.items.map(i => {
+        let itemTotal = i.item.price * i.count;
+        total += itemTotal;
+        return `${i.count} x ${i.item.name} - ${itemTotal} руб.`;
+      })
+      checkInfo.push(`Total: ${total} руб.`);
+      return checkInfo.join('\n');
+    };
+  this.lockOrder = function () {
+    this.locked = true;
+  };
+  this.unlockOrder = function () {
+    this.locked = false;
+  };
 }
 
-const apple = { name: 'apple', price: 100 }
-const bread = { name: 'bread', price: 20 }
-const milk = { name: 'milk', price: 50 }
+const newInstans = new Purchase()
 
-let newInstans = new Purchase()
-
-newInstans.addItem(apple, 2)
-newInstans.addItem(bread, 2)
-newInstans.addItem(milk, 2)
+newInstans.addItem({ name: 'apple', price: 100 }, 6)
+newInstans.removeItem({ name: 'apple', price: 100 }, 3)
+newInstans.addItem({ name: 'bread', price: 20 }, 1)
+newInstans.addItem({ name: 'milk', price: 50 }, 1)
 
 console.log(newInstans)
