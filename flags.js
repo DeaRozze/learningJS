@@ -263,4 +263,82 @@ Object.defineProperty(user, 'fullName', {
 console.log(user.fullName); // Vlad Kud
 
 
-for(let key in user) alert(key); // name surname
+for (let key in user) alert(key); // name surname
+
+
+
+let user = {
+  get name() {
+    return this._name
+  },
+  set name(value) {
+    if (value.length < 4) {
+      console.log("Имя слишком короткое, должно быть более 4 символов")
+      return
+    }
+    this._name = value
+  }
+}
+
+user.name = 'Vlad'
+console.log(user.name) //Vlad
+
+user.name = "" // Имя слишком короткое, должно быть более 4 символов
+
+
+
+function User(name, birthday) {
+  this.name = name;
+  this.birthday = birthday;
+
+  // возраст рассчитывается из текущей даты и дня рождения
+  Object.defineProperty(this, "age", {
+    get() {
+      let todayYear = new Date().getFullYear();
+      return todayYear - this.birthday.getFullYear();
+    }
+  });
+}
+
+let john = new User("John", new Date(1992, 6, 1));
+
+alert(john.birthday); // Wed Jul 01 1992 00:00:00 GMT+0400
+alert(john.age); //33
+
+
+
+const person = {
+  _age: 23,
+  get age() {
+    return this._age;
+  },
+  set age(value) {
+    if (value < 0) {
+      console.log("ошибка");
+      return;
+    }
+    this._age = value;
+  },
+};
+person.age = -1; // ошибка
+console.log(person.age); // 23
+
+
+//Геттер возвращает текущее значение.
+//Сеттер увеличивает значение только если переданное число больше текущего.
+const counter = {
+  _count: 0,
+  get count() {
+    return this._count;
+  },
+  set count(value) {
+    if (value < this._count) return;
+    this._count = value;
+  },
+};
+counter.count = 2;
+console.log(counter.count); // 2
+counter.count = 4;
+console.log(counter.count); // 4
+counter.count = 2;
+console.log(counter.count); // 4
