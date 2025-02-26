@@ -92,12 +92,113 @@ function Rabbit() { }
 // Rabbit.prototype = { constructor: Rabbit }
 
 console.dir(Rabbit.prototype.constructor == Rabbit) // true 
-console.dir(Rabbit.prototype.constructor)  
+console.dir(Rabbit.prototype.constructor)
 
-function Rabbit() {}
+function Rabbit() { }
 // по умолчанию:
 // Rabbit.prototype = { constructor: Rabbit }
 
 let rabbit = new Rabbit(); // наследует от {constructor: Rabbit}
 
 alert(rabbit.constructor == Rabbit); // true (свойство получено из прототипа)
+
+let obj = {}
+
+console.log(obj.__proto__ === Object.prototype); //true
+// obj.toString === obj.__proto__.toString === Object.prototype.toString
+
+let arr = [1, 2, 3];
+// наследует ли от Array.prototype?
+alert(arr.__proto__ === Array.prototype); // true
+
+// затем наследует ли от Object.prototype?
+alert(arr.__proto__.__proto__ === Object.prototype); // true
+
+// и null на вершине иерархии
+alert(arr.__proto__.__proto__.__proto__); // null
+
+let person = {
+  walk: true
+}
+
+let person2 = Object.create(person)
+
+console.log(person2.walk); // true
+
+console.log(Object.getPrototypeOf(person2) === person); //true
+
+Object.setPrototypeOf(person2, {}); //больше нет в прототипе объекта person
+
+console.log(Object.getPrototypeOf(person2) === person); //false
+
+// клон obj c тем же прототипом (с поверхностным копированием свойств)
+let clone = Object.create(Object.getPrototypeOf(obj), Object.getOwnPropertyDescriptors(obj));
+
+
+let obj = Object.create(null);
+
+let key = prompt("What's the key?", "__proto__");
+obj[key] = "some value";
+
+alert(obj[key]); // "some value" // прототипом будет null
+
+
+function Rabbit(name) {
+  this.name = name;
+}
+Rabbit.prototype.sayHi = function () {
+  alert(this.name);
+};
+
+let rabbit = new Rabbit("Rabbit");
+
+
+rabbit.sayHi();                        // Rabbit
+Rabbit.prototype.sayHi();              // undefined
+Object.getPrototypeOf(rabbit).sayHi(); // undefined
+rabbit.__proto__.sayHi();              // undefined
+
+
+
+let obj1 = {
+  name: 'Vlad'
+}
+
+let obj2 = {}
+
+Object.setPrototypeOf(obj2, obj1)
+Object.getPrototypeOf(obj2)
+obj1.hasOwnProperty('name') //true
+obj2.hasOwnProperty('name') //false
+
+
+function Person(name, age) {
+  this.name = name
+  this.age = age
+}
+
+Person.prototype.greet = function () {
+  console.log(`Hello, ${this.name}, ${this.age}`);
+}
+
+let person = new Person('Vlad', 23)
+person.greet() // Hello, Vlad,23
+
+Person.prototype.greet = function () {
+  console.log(`aboba ${this.name}, ${this.age}`);
+}
+
+let person2 = new Person('nikita', 27)
+person2.greet() //aboba nikita, 27
+person.greet() // aboba Vlad, 23
+
+const animal = {
+  speak: function () {
+    console.log(`${this.name} makes sound`);
+  }
+}
+
+const dog = Object.create(animal)
+dog.name = 'Dog'
+dog.speak() // Dog makes sound
+Object.getPrototypeOf(dog)
