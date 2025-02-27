@@ -1,4 +1,4 @@
-firstPerson = {
+let firstPerson = {
   sleep() {
     console.log('sleep');
   },
