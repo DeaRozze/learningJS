@@ -73,3 +73,30 @@ const numbers = [1, 2, 3, 4, 5];
 const sum = numbers.myReduce((acc, value) => acc + value, 0);
 
 console.log(sum); // 15
+
+
+
+function CustomArray() {
+  // Inherit properties and methods of the native Array
+  let array = [];
+
+  // Set the prototype of CustomArray to Array's prototype so it behaves like an array
+  Object.setPrototypeOf(array, CustomArray.prototype);
+
+  // You can use the push method of the array (or any array method)
+  array.push = function (...args) {
+      Array.prototype.push.apply(this, args);
+  };
+
+  // Custom method 'hi' to return the length of the array
+  array.hi = function () {
+      return `length - ${this.length}`;
+  };
+
+  return array;
+}
+
+// Usage
+const myArray = new CustomArray();
+myArray.push(1, 2, 3, 4);
+console.log(myArray.hi());
