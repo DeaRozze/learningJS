@@ -1,8 +1,8 @@
 class Kettle {
     constructor(volume, brand) {
-        this.volume = volume; // объём чайника в литрах
-        this.brand = brand;   // марка чайника
-        this.temperature = 20; // начальная температура воды (в градусах Цельсия)
+        this.volume = volume; 
+        this.brand = brand;   
+        this.temperature = 20; 
         this.isOn = false;
         this.boilingProcess = null;
     }
@@ -59,7 +59,7 @@ class Kettle {
     }
 }
 
-// Пример использования класса:
+
 let kettle = new Kettle(1.5, "Tefal");
 kettle.turnOn();
 kettle.boil();
