@@ -106,3 +106,26 @@ Parent.prototype.sayHello = function () {};
 
 new Parent.prototype.sayHello(); // Всё нормально
 ```
+
+# если в геттере для приватного св-во укажем super сможем ли мы изменитть приватное св-во из инстанса
+
+`Нет, super не позволяет изменить приватное поле # из инстанса.`
+
+1. Приватные поля (#) не наследуются — они привязаны к конкретному классу и не доступны в его потомках.
+
+2. `super` работает только с методами и свойствами прототипа родительского класса, но приватные поля не находятся в `prototype`, а хранятся на уровне конкретного инстанса.
+
+```JavaScript
+class Parent {
+    #value = 10;
+
+    get value() {
+        return super.value; // Попытка обратиться через super
+    }
+}
+
+class Child extends Parent {}
+
+const child = new Child();
+console.log(child.value); // TypeError: 'super' keyword unexpected here
+```
