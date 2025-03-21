@@ -213,3 +213,212 @@ console.log('код после try...catrh'); // продорлжает рабо
 
 4. Обязательна в продакшене (на реальных сайтах ошибки обрабатываются, чтобы не сломать приложение).
 `
+
+function test() {
+  try {
+    console.log("Внутри try");
+    throw new Error("Ошибка!");
+  } catch (error) {
+    console.log("Ошибка поймана:", error.message);
+  } finally {
+    console.log("Этот код выполнится всегда!");
+  }
+}
+
+test();
+
+// Внутри try
+// Ошибка поймана: Ошибка!
+// Этот код выполнится всегда!
+
+function example() {
+  try {
+    console.log("Внутри try");
+    return "Возвращаем из try";
+  } catch (error) {
+    console.log("Ошибка поймана");
+    return "Возвращаем из catch";
+  } finally {
+    console.log("Выполняем finally");
+    return "Возвращаем из finally";
+  }
+}
+
+console.log(example());
+
+// Внутри try
+// Выполняем finally
+// Возвращаем из finally
+
+function example1() {
+  try {
+    console.log("Внутри try");
+    return "Возвращаем из try";
+  } finally {
+    console.log("Выполняем finally");
+    return "Возвращаем из finally";
+  }
+}
+
+console.log(example1());
+
+// Внутри try
+// Выполняем finally
+// Возвращаем из finally
+
+function example4() {
+  try {
+    console.log("Внутри try");
+    return "Возвращаем из try";
+  } catch (error) {
+    console.log("Ошибка поймана");
+    return "Возвращаем из catch";
+  } finally {
+    console.log("Выполняем finally");
+    throw new Error("Новая ошибка из finally");
+  }
+}
+
+try {
+  console.log(example4());
+} catch (error) {
+  console.log("Перехват ошибки:", error.message);
+}
+
+// Внутри try
+// Выполняем finally
+// Перехват ошибки: Новая ошибка из finally
+
+// 1. ReferenceError (Ошибка ссылки)
+// Возникает, если мы обращаемся к необъявленной переменной.
+
+console.log(undeclaredVar); // ReferenceError: undeclaredVar is not defined
+
+try {
+  console.log(nonExistentVariable);
+} catch (error) {
+  console.log(error.name); // ReferenceError
+  console.log(error.message); // nonExistentVariable is not defined
+}
+
+//2. TypeError (Ошибка типа)
+//Возникает, если пытаемся выполнить недопустимую операцию с переменной неправильного типа.
+let num = 10;
+num(); // TypeError: num is not a function
+
+try {
+  null.someMethod(); // Ошибка: нельзя вызвать метод у null
+} catch (error) {
+  console.log(error.name); // TypeError
+  console.log(error.message);
+}
+
+try {
+  let obj = {};
+  obj.someMethod(); // Ошибка: метод не определён
+} catch (error) {
+  console.log(error.name); // TypeError
+  console.log(error.message);
+}
+
+// 3. SyntaxError (Ошибка синтаксиса)
+// Возникает при нарушении правил написания кода (обычно во время парсинга кода, а не во время выполнения).
+
+try {
+  eval("var a = ;"); // Ошибка из-за некорректного синтаксиса
+} catch (error) {
+  console.log(error.name); // SyntaxError
+  console.log(error.message);
+}
+//eval() позволяет выполнить строку как код JavaScript, и если в ней есть ошибка, выбрасывается SyntaxError.
+
+// 4. RangeError (Ошибка диапазона)
+//Возникает, если передаём в функцию недопустимое значение в пределах допустимого типа.
+
+try {
+  let arr = new Array(-1); // Нельзя создать массив с отрицательной длиной
+} catch (error) {
+  console.log(error.name); // RangeError
+  console.log(error.message);
+}
+
+try {
+  function recursive() {
+    return recursive(); // Бесконечная рекурсия
+  }
+  recursive();
+} catch (error) {
+  console.log(error.name); // RangeError: Maximum call stack size exceeded
+}
+
+//5. URIError (Ошибка URI)
+//Возникает при некорректном использовании функций decodeURI() и encodeURI().
+
+try {
+  decodeURI("%"); // Некорректный URI
+} catch (error) {
+  console.log(error.name); // URIError
+  console.log(error.message);
+}
+
+//6. Custom Error (Своя ошибка)
+//Если нужно выбросить свою ошибку, можно использовать throw new Error():
+
+try {
+  throw new Error("Моя кастомная ошибка");
+} catch (error) {
+  console.log(error.name); // Error
+  console.log(error.message); // Моя кастомная ошибка
+}
+
+//Можно также создать свой класс ошибок, наследуя от Error:
+
+class MyCustomError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = "MyCustomError";
+  }
+}
+
+try {
+  throw new MyCustomError("Что-то пошло не так!");
+} catch (error) {
+  console.log(error.name); // MyCustomError
+  console.log(error.message); // Что-то пошло не так!
+}
+
+// Свой ErrorHandling
+
+class ErrorHandling extends Error {
+  constructor(message, cause) {
+    super(message);
+    this.cause = cause;
+    this.name = "ErrorHandling";
+  }
+}
+
+try {
+  console.log('что-то');
+  throw new ErrorHandling('у нас проблемы');
+} catch (err) {
+  if (err instanceof ErrorHandling) {
+    console.log('наследуется от нашей ошибки', err);
+  } else {
+    throw err;
+  }
+}
+
+// Вынесем второй try...catch за пределы первого.
+try {
+  console.log(sum("1", 2));  // sum не определена, будет ошибка ReferenceError
+} catch (err) {
+  if (err instanceof ReferenceError) {
+    console.log('Ошибка: некорректная функция sum', err);
+  } else {
+    throw err;
+  }
+}
+
+function sum(a, b) {
+  return a + b;
+}
