@@ -123,3 +123,22 @@ Promise.resolve("Успех")
   .finally(() => {
     console.log("Операция завершена");
   });
+
+// Создай промис, который исполняется через 2 секунды значением 'Готово'. Выведи результат в консоль.
+
+Promise.resolve((ms) => {
+  setTimeout(() => {
+    console.log("Ready");
+  }, ms);
+});
+////////////////////
+const promise3 = new Promise((resolve) => {
+  setTimeout(() => {
+    resolve("Готово");
+  }, 2000);
+});
+
+promise.then((result) => {
+  console.log(result); // Выведет 'Готово' через 2 секунды
+});
+
