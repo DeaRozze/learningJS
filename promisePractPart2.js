@@ -217,3 +217,93 @@ async function loadJson(url) {
 
 loadJson("no-such-user.json") // (3)
   .catch(alert); // Error: 404
+
+// 🔧 Задача 1: Промисифицируй setTimeout
+// Создай функцию delay(ms), которая возвращает промис и ждёт указанное количество миллисекунд:
+function delay(ms) {
+  return new Promise((res) => setTimeout(res, ms));
+}
+delay(2000).then(() => console.log("Прошло 2 секунды"));
+
+// 🔧 Задача 2: Промисифицируй функцию loadScript
+// Есть функция, добавляющая <script> на страницу:
+// Сделай промисифицированную версию: loadScriptPromise(src), которая позволяет использовать await.
+function loadScript(src, callback) {
+  const script = document.createElement("script");
+  script.src = src;
+  script.onload = () => callback(null, script);
+  script.onerror = () => callback(new Error("Ошибка загрузки"));
+  document.head.append(script);
+}
+async function loadScriptPromise(src) {
+  return promisify(loadScript(src))
+    .then((script) => console.log("SCRIPPT", script))
+    .catch((e) => console.log("ERROR", e));
+}
+
+const test = await loadScriptPromise("https://example.com/script.js");
+
+const { error } = require("console");
+// 🔧 Задача 3: Промисифицируй функцию с Node.js
+// Вот пример Node.js-функции:
+const fs = require("fs");
+
+fs.readFile("example.txt", "utf8", (err, data) => {
+  if (err) throw err;
+  console.log(data);
+});
+// 🔧 Напиши promisify, чтобы использовать:
+function promisify(fn) {
+  return function (...args) {
+    return new Promise((res, rej) => {
+      fn(...args, (err, data) => {
+        if (err) rej(err);
+        else res(data);
+      });
+    });
+  };
+}
+const readFilePromise = promisify(fs.readFile);
+const content = readFilePromise("example.txt", "utf8")
+  .then((data) => console.log("Содержимое файла:", data))
+  .catch((err) => console.error("Ошибка:", err));
+
+// 🔧 Задача 4: Несколько аргументов в callback
+// Промисифицируй её так, чтобы Promise возвращал оба значения в виде массива [lat, lng].
+// Допустим у тебя есть функция:
+
+function promisify1(fn) {
+  return function (...args) {
+    return new Promise((res, rej) => {
+      fn(...args, (err, ...result) => {
+        if (err) rej(err);
+        else res(result);
+      });
+    });
+  };
+}
+function getCoordinates(callback) {
+  // callback(null, lat, lng)
+  callback(null, 59.9386, 30.3141);
+}
+const coordinates = promisify1(getCoordinates);
+coordinates.then(([lat, lng]) => console.log("Координаты:", lat, lng));
+
+// 🔧 Задача 5: Напиши универсальную функцию promisify
+// Напиши свою версию функции promisify, которая:
+// Принимает любую функцию вида f(arg1, arg2..., callback)
+// Возвращает новую, возвращающую Promise
+// Работает с callback(err, result)
+// Для следующего использования:
+function promisify1(fn) {
+  return function (...args) {
+    return new Promise((res, rej) => {
+      fn(...args, (err, result) => {
+        if (err) rej(err);
+        else res(result);
+      });
+    });
+  };
+}
+const promisifiedFn = promisify(myFunc);
+const result = await promisifiedFn(arg1, arg2);
