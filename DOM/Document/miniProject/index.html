@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+
+    .todo-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px;
+      border: 1px solid #ccc;
+      margin-top: 5px;
+      border-radius: 4px;
+    }
+
+    .todo-item:hover {
+      background: #f0f0f0;
+    }
+
+    .remove-btn {
+      cursor: pointer;
+      color: red;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Мой список дел</h1>
+
+  <input type="text" id="todo-input" placeholder="Новая Задача" />
+  <button id="add-btn">Добавить</button>
+
+  <div id="todo-list"></div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
