@@ -20,7 +20,7 @@ addBtn.addEventListener("click", () => {
   `;
 
   // Добавляем в список
-  list.appendChild(item);
+  list.append(item);
 
   // Очищаем поле ввода
   input.value = "";
